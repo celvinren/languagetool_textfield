@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io' as io;
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:languagetool_textfield/src/core/model/language_tool_raw.dart';
 import 'package:languagetool_textfield/src/domain/writing_mistake.dart';
@@ -9,7 +11,11 @@ import 'package:languagetool_textfield/src/domain/writing_mistake.dart';
 /// Read more @ https://languagetool.org/http-api/swagger-ui/#/
 class LanguageToolClient {
   /// Url of LanguageTool API.
-  static const _url = 'api.languagetoolplus.com';
+  static final _url = kIsWeb
+      ? 'localhost:8010'
+      : io.Platform.isAndroid
+          ? '10.0.2.2:8010'
+          : 'localhost:8010';
 
   /// Headers for request.
   static const _headers = {
@@ -27,7 +33,7 @@ class LanguageToolClient {
   /// Checks the errors in text.
   Future<List<WritingMistake>> check(String text) async {
     final result = await http.post(
-      Uri.https(_url, 'v2/check'),
+      Uri.http(_url, 'v2/check'),
       headers: _headers,
       body: {
         'text': text,

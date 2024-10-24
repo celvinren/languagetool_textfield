@@ -16,7 +16,7 @@ class Rule {
   final Category category;
 
   /// The subscription status of the rule.
-  final bool isPremium;
+  final bool? isPremium;
 
   /// Creates a new instance of the [Rule] class.
   Rule({
@@ -33,6 +33,6 @@ class Rule {
         description: json['description'] as String,
         issueType: MistakeType.fromString(json['issueType'] as String),
         category: Category.fromJson(json['category'] as Map<String, dynamic>),
-        isPremium: json['isPremium'] as bool,
+        isPremium: json['isPremium'] as bool?,
       );
 }
